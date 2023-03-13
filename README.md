@@ -10,4 +10,4 @@ Facebook Cover generator is a simple webapp based on HTML2Canvas and allows a fe
 - click Generate and Save in order to save the generated Facebook Cover as 851x315 ONG image
 
 
-[![Facebook Cover](main/assets/screenshot.jpg)](#)
+[![Facebook Cover](https://raw.githubusercontent.com/Dascent/fb-cover/main/assets/screenshot.jpg)](#)
