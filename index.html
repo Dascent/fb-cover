@@ -1,0 +1,420 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Facebook Cover Generator</title>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
+<script src="js/app.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Bebas+Neue&family=Cinzel+Decorative:wght@700&family=Comforter+Brush&family=Gemunu+Libre:wght@300&family=Goldman&family=Great+Vibes&family=Lobster+Two&family=Oswald&family=Pirata+One&family=Play&family=Zilla+Slab+Highlight&display=swap');
+body{width:100%;margin:0 auto;}
+.checkers{background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);background-size: 20px 20px;background-position: 0 0, 0 10px, 10px -10px, -10px 0px;overflow:hidden;}
+.bg-dan{height:345px;background: rgb(195,34,187);
+background: -moz-linear-gradient(140deg, rgba(195,34,187,1) 0%, rgba(45,205,253,1) 100%);
+background: -webkit-linear-gradient(140deg, rgba(195,34,187,1) 0%, rgba(45,205,253,1) 100%);
+background: linear-gradient(140deg, rgba(195,34,187,1) 0%, rgba(45,205,253,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c322bb",endColorstr="#2dcdfd",GradientType=1);}
+.visible{visibility: visible!important;}
+
+.dragit{cursor:move;filter:drop-shadow();animation-play-state: paused;}
+.dragit:hover{cursor:move;filter:drop-shadow(0 0 1px #000);animation:doPulse infinite 1s; animation-play-state:running;transition: none;}
+.zindex{z-index:1!important;}
+.delete1{display:none!important;visibility:hidden!important;transform: scaleY(.1)!important ; opacity:0!important;transform-origin:bottom center;}
+button.farabg{background-color:transparent;border:none;}
+.doi{display:block;}
+.svg-icon2{width: 3em;height: 3em;}
+.svg-icon2 path,
+.svg-icon2 polygon,
+.svg-icon2 rect{fill: #FB4B24;}
+.svg-icon2 circle {stroke: #FB4B24;stroke-width: 1;}
+.rotate{transform:rotateY(180deg);}
+
+.rotate .svg-icon2{width: 3em;height: 3em;}
+.rotate .svg-icon2 path,
+.rotate .svg-icon2 polygon,
+.rotate .svg-icon2 rect{fill: #000;}
+.rotate .svg-icon2 circle {stroke: #000;stroke-width: 1;}
+.nosee{opacity:0;}
+.dosee{opacity:1;}
+.svg-icon-trash {width: 1.4em;height: 1.4em;}
+.svg-icon-trash path,
+.svg-icon-trash polygon,
+.svg-icon-trash rect {fill: #fff;}
+.svg-icon-trash circle {stroke: #fff;stroke-width: 2;}
+.dasclear,.instruct{display:none;text-align:center;opacity:0;}
+
+
+</style>
+</head>
+
+<body>
+
+
+
+<div id="mainapp" class="container-fluid p-0">
+
+
+<!-- Buttons --->
+<div class="container-fluid p-4 mx-auto bg-light">
+<div class="container">
+<div class="row">
+<div class="col-md-4"><input id="btn-Preview-Image" type="button" class="btn btn-primary" value="Generate Cover"/></div>
+<div class="col-md-4"><button style="visibility:hidden;" id="btn-Convert-Html2Image" class="btn btn-primary ">Download</button></div>
+<div class="col-md-4"><div class="row">
+<div class="col-sm-6"><button class="dasclear btn btn-md btn-danger" id="clear" type="button"><svg class="svg-icon-trash" viewBox="0 0 20 20"><path d="M17.114,3.923h-4.589V2.427c0-0.252-0.207-0.459-0.46-0.459H7.935c-0.252,0-0.459,0.207-0.459,0.459v1.496h-4.59c-0.252,0-0.459,0.205-0.459,0.459c0,0.252,0.207,0.459,0.459,0.459h1.51v12.732c0,0.252,0.207,0.459,0.459,0.459h10.29c0.254,0,0.459-0.207,0.459-0.459V4.841h1.511c0.252,0,0.459-0.207,0.459-0.459C17.573,4.127,17.366,3.923,17.114,3.923M8.394,2.886h3.214v0.918H8.394V2.886z M14.686,17.114H5.314V4.841h9.372V17.114z M12.525,7.306v7.344c0,0.252-0.207,0.459-0.46,0.459s-0.458-0.207-0.458-0.459V7.306c0-0.254,0.205-0.459,0.458-0.459S12.525,7.051,12.525,7.306M8.394,7.306v7.344c0,0.252-0.207,0.459-0.459,0.459s-0.459-0.207-0.459-0.459V7.306c0-0.254,0.207-0.459,0.459-0.459S8.394,7.051,8.394,7.306"></path></svg></button></div>
+ <div class="col-sm-6"><button class="btn btn-md btn-primary" id="reload">Refresh</button></div></div></div>
+</div></div></div>
+<!--/ Buttons --->
+
+
+
+
+<!--- Wrapper --->
+<div class="container-fluid p-0 checkers">
+
+<div id="html-content-holder" style="display:block;width:851px;height:auto;margin:0 auto;image-rendering: crisp-edges;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;">
+
+<div id="fbeditor" class="fbcover" style="display:block;width:851px;height:315px;margin:0 auto;background-color:#4287f5;color:#fff;background-repeat:no-repeat;background-size:851px 315px;background-position:0 0;">
+  <span class="thetext dragit" style="display:block;width:800px;height:100px;"><div id="covertext1" style="display:block;width:800px;height:100px;max-height:315px;color:#fff;padding:0;margin:0 auto;text-align:center;z-index:99;box-sizing:border-box;font-size:2.5em;" class="txt1" contenteditable="true" spellcheck="false">Facebook Cover</div></span>
+ 
+  </div>
+</div>
+
+</div>
+<!---/ Wrapper --->
+
+
+
+
+<!-- Options -->
+<div class="container-fluid pt-3 pb-3 mx-auto">
+<div class="row">
+
+  <div class="col-md-4">
+  <div class="row">
+  <div class="col-md-6"><p>Background color</p>
+    <input type="color" class="form-control form-control-color"  style="padding:.5;" value="#4287f5" id="coverbg" /></div>
+   <div class="col-md-6"> <p>Background image</p>
+   <div class="card-footer">
+    <select id="framechangebg" class="form-control">
+<option value="1">-- Abstract --</option>
+<option value="2">background 1</option>
+<option value="3">background 2</option>
+<option value="4">background 3</option>
+<option value="5">background 4</option>
+<option value="6">background 5</option>
+<option value="7">background 6</option>
+<option value="8">background 7</option>
+<option value="9">background 8</option>
+<option value="10">background 9</option>
+<option value="11">background 10</option>
+<option value="12">background 11</option>
+<option value="13">background 12</option>
+<option value="14">no background</option>
+</select></div>
+<div class="card-footer">
+<select id="framechangebg2" class="form-control">
+<option value="1">-- Set 2 --</option>
+<option value="2">background 1</option>
+<option value="3">background 2</option>
+<option value="4">background 3</option>
+<option value="5">background 4</option>
+<option value="6">background 5</option>
+<option value="7">background 6</option>
+<option value="8">background 7</option>
+<option value="9">background 8</option>
+<option value="10">background 9</option>
+<option value="11">background 10</option>
+<option value="12">background 11</option>
+<option value="13">background 12</option>
+<option value="14">no background</option>
+</select>
+</div>
+<div class="card-footer">
+<select id="framechangebg3" class="form-control">
+<option value="1">-- Set 3 --</option>
+<option value="2">background 1</option>
+<option value="3">background 2</option>
+<option value="4">background 3</option>
+<option value="5">background 4</option>
+<option value="6">background 5</option>
+<option value="7">background 6</option>
+<option value="8">background 7</option>
+<option value="9">background 8</option>
+<option value="10">background 9</option>
+<option value="11">background 10</option>
+<option value="12">background 11</option>
+<option value="13">background 12</option>
+<option value="14">no background</option>
+</select></div>
+  </div></div></div>
+  
+  <div class="col-md-4">
+  <p>Text</p>
+  <div class="col-md-12"><input type="text" id="myText1" class="form-control" placeholder="Type here" spellcheck="false" style=""></div>
+  <div class="row pt-3">
+    <div class="col-md-6"><button onclick="dxsubmitTxt()" class="btn btn-md btn-primary" style="">Submit</button></div>
+    <div class="col-md-6">Hide text <button onclick="dxdelete1()" class="farabg"><i id="svgicon" class="doi farabg"><svg class="svg-icon2" viewBox="0 0 20 20"><path d="M12.546,4.6h-5.2C4.398,4.6,2,7.022,2,10c0,2.978,2.398,5.4,5.346,5.4h5.2C15.552,15.4,18,12.978,18,10C18,7.022,15.552,4.6,12.546,4.6 M12.546,14.6h-5.2C4.838,14.6,2.8,12.536,2.8,10s2.038-4.6,4.546-4.6h5.2c2.522,0,4.654,2.106,4.654,4.6S15.068,14.6,12.546,14.6 M12.562,6.2C10.488,6.2,8.8,7.904,8.8,10c0,2.096,1.688,3.8,3.763,3.8c2.115,0,3.838-1.706,3.838-3.8C16.4,7.904,14.678,6.2,12.562,6.2 M12.562,13C10.93,13,9.6,11.654,9.6,10c0-1.654,1.33-3,2.962-3C14.21,7,15.6,8.374,15.6,10S14.208,13,12.562,13"></path></svg></i></button></div>
+  </div>
+
+ 
+  
+  
+  <div class="row">
+	<div class="col-md-4">
+		<p>Select Font</p>
+	 <select id="framechangefont" class="ffaceoptions form-control">
+<option value="1">Roboto</option>
+<option value="2" class="bebas">Bebas Neue</option>
+<option value="3" class="oswald">Oswald</option>
+<option value="4" class="gemunu">Gemunu Libre</option>
+<option value="5" class="audiowide">Audiowide</option>
+<option value="6" class="goldman">Goldman</option>
+<option value="7" class="pirataone">Pirata One</option>
+<option value="8" class="play">Play</option>
+<option value="9" class="cinzel">Cinzel Decorative</option>
+<option value="10" class="comforta">Comforter Brush</option>
+<option value="11" class="gvibes">Great Vibes</option>
+<option value="12" class="lobster">Lobster Two</option>
+<option value="13" class="zilla">Zilla Slab Highlight</option>
+</select>
+</div>
+	<div class="col-md-4">
+		<p>Font size</p>  
+		<input type="range" value="1.2" min="1.2" max="4.6" step=".0002" id="slider" class="form-range"/>
+	</div>
+	<div class="col-md-4">
+		<p>Text color</p>
+			<input type="color" value="#467774" id="textcolor" class="form-control form-control-color p-1"/>
+		</div>
+</div>
+  
+ 
+  </div>
+  
+  <div class="col-md-4">
+  <p>Info</p>
+<div>Facebook Cover generator is a simple webapp based on HTML2Canvas and allows a few options like:<br>
+- choose a background color and/or image for Facebook cover<br>
+- type a text, change its color, size, font, position<br>
+- click Generate and Save in order to save the generated Facebook Cover as 851x315 PNG image</div>
+  
+    <div class="row mt-4 text-center pt-4">
+    <div class="col-md-6"><a class="btn btn-md btn-primary" href="https://github.com/Dascent/fb-cover" target="_blank">GitHub</a></div>
+<div class="col-md-6"><a class="btn btn-md btn-primary" href="https://github.com/Dascent/fb-cover/discussions" target="_blank">Comment</a></div>
+    </div>
+   
+  </div>
+  
+</div>
+</div>
+<!--/ Options -->
+
+</div>
+
+
+
+<!-- Preview -->
+<div class="container-fluid pt-3 pb-3 text-center mx-auto">
+    <div id="previewImage">
+    </div>
+</div>
+<!--/ Preview --->
+
+
+<div class="container-fluid">
+<div class="container p-3 mt-3 mb-3 text-center"></div>
+</div>
+
+<script>
+
+
+//Avatar bg
+$('#coverbg').on('input', e => $('#fbeditor').css('background-color', $(e.target).val() ));
+//Text type In
+function dxsubmitTxt() {
+	var text1 = $("#myText1").val() || '<br>';
+	$("#covertext1").html(text1);
+};
+//Delete Text
+function dxdelete1() {
+	   var divs = document.querySelectorAll('#covertext1');
+ for (var i = 0; i < divs.length; i++) {
+    divs[i].classList.toggle('delete1');
+				$('#svgicon').toggleClass('rotate');
+ }};
+ 
+ 
+$('#reload').click(function() {
+    location.reload();
+});
+
+//CLEAR canvas
+$( "#clear" ).click(function() {
+  $("canvas" ).fadeOut( "slow", function() {
+    $('canvas').remove();
+  });
+		$('#clear').css({'display':'none','opacity':'0'}).fadeOut;
+		$('.instruct').css({'display':'none','opacity':'0'}).fadeOut;
+	$('#previewImage').removeClass('checkers').fadeOut;
+});
+
+//Drag Elements
+$(function() {
+    $(".dragit").draggable();
+});
+
+
+// Change Background Graphic
+var dxframeArray = [
+// 1 Empty
+'img/empty.png',
+'img/c1.png',
+'img/c2.png',
+'img/c3.png',
+'img/c4.png',
+'img/c5.png',
+'img/c6.png',
+'img/c7.png',
+'img/c8.png',
+'img/c9.png',
+'img/c10.png',
+'img/c11.png',
+'img/c12.png',
+'img/empty.png'
+]
+$('#framechangebg').on('change', function(){
+value = $(this).val() - 1;
+$('#fbeditor').css({'background-image':'url(' + dxframeArray[value] + ')'});
+});
+
+
+// Change Background Graphic
+var dxframeArray2 = [
+// 1 Empty
+'img/empty.png',
+'img/n1.png',
+'img/n2.png',
+'img/n3.png',
+'img/n4.png',
+'img/n5.png',
+'img/n6.png',
+'img/n7.png',
+'img/n8.png',
+'img/n9.png',
+'img/n10.png',
+'img/n11.png',
+'img/n12.png',
+'img/empty.png'
+]
+$('#framechangebg2').on('change', function(){
+value = $(this).val() - 1;
+$('#fbeditor').css({'background-image':'url(' + dxframeArray2[value] + ')'});
+});
+
+
+// Change Background Graphic
+var dxframeArray3 = [
+// 1 Empty
+'img/empty.png',
+'img/s1.png',
+'img/s2.png',
+'img/s3.png',
+'img/s4.png',
+'img/s5.png',
+'img/s6.png',
+'img/s7.png',
+'img/s8.png',
+'img/s9.png',
+'img/s10.png',
+'img/s11.png',
+'img/s12.png',
+'img/empty.png'
+]
+$('#framechangebg3').on('change', function(){
+value = $(this).val() - 1;
+$('#fbeditor').css({'background-image':'url(' + dxframeArray3[value] + ')'});
+});
+
+
+
+//Change Font Color
+$('#textcolor').on('input', e => $('#covertext1').css('color', $(e.target).val() ));
+// Change Font Size
+$('#slider').on('input', e => $('#covertext1').css('font-size', $(e.target).val() + 'em'));
+// Change Font
+var dxfontArray = [
+// Font 1 Default
+'-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol',
+// Font 2
+'Bebas Neue',
+// Font 3
+'Oswald',
+// Font 4
+'Gemunu Libre',
+// Font 5
+'Audiowide',
+// Font 6
+'Goldman',
+// Font 7
+'Pirata One',
+// Font 8
+'Play',
+// Font 9
+'Cinzel Decorative',
+// Font 10
+'Comforter Brush',
+// Font 11
+'Great Vibes',
+// Font 12
+'Lobster Two',
+// Font 13
+'Zilla Slab Highlight'
+]
+ $('#framechangefont').on('change', function(){
+    value = $(this).val() - 1;
+   $('#covertext1').css({'font-family':'' + dxfontArray[value] + ''});
+			
+});
+
+
+
+$(document).ready(function(){
+
+  var element = $("#html-content-holder"); // global variable
+  var getCanvas; // global variable
+
+  $("#btn-Preview-Image").on('click', function () {
+    html2canvas(element, {
+      onrendered: function (canvas) {
+        $("#previewImage").append(canvas);
+        getCanvas = canvas;
+      }
+    });
+	$("#btn-Convert-Html2Image").addClass('visible');
+	//show Canvas Clear Button
+				$('#clear').css({'display':'block','opacity':'1'}).fadeIn;
+				$('.instruct').css({'display':'block','opacity':'1'}).fadeIn;
+				$('#previewImage').addClass('checkers').fadeIn;
+  });
+
+  $("#btn-Convert-Html2Image").on('click', function () {
+    var imgageData = getCanvas.toDataURL("image/png");
+    // Now browser starts downloading it instead of just showing it
+    var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+    var downloadBtn = document.createElement("a");
+    downloadBtn.textContent = "Download Cover";
+    downloadBtn.setAttribute("download", "facebook-za-cover.png");
+    downloadBtn.setAttribute("href", newData);
+    downloadBtn.setAttribute("class", "btn btn-primary"); // add any additional classes you want
+    $(this).replaceWith(downloadBtn);
+  });
+
+});
+</script>
+
+</body>
+</html>
